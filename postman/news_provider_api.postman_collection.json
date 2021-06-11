@@ -1,0 +1,1589 @@
+{
+	"info": {
+		"_postman_id": "2c1caa44-bd30-4a75-89c4-8cfafee14ba6",
+		"name": "news_provider_api",
+		"description": "News provider API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Articles Admin",
+			"item": [
+				{
+					"name": "List Articles",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": null,
+						"description": "Lists all the articles available"
+					},
+					"response": [
+						{
+							"name": "List Articles",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://127.0.0.1:82/api/admin/articles/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "82",
+									"path": [
+										"api",
+										"admin",
+										"articles",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 11 Jun 2021 01:38:33 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "403"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"c87b896c-f3c6-4cc0-b60f-e9de35f47111\",\n        \"category\": \"Category\",\n        \"title\": \"Article title\",\n        \"summary\": \"This is a summary of the article\",\n        \"firstParagraph\": \"<p>This is the first paragraph of this article</p>\",\n        \"body\": \"<div><p>Second paragraph</p><p>Third paragraph</p></div>\",\n        \"author\": {\n            \"id\": \"3fb4c437-fe9e-4ade-a9b1-18d76bd60171\",\n            \"name\": \"Diego Rafael\",\n            \"picture\": \"http://127.0.0.1/media/logo_3285uny.png\"\n        }\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Update Articles",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Rafael\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "Updates article"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Articles",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:82/api/admin/authors/87a781ab-fcd6-45ea-a6d1-9ea8056b0812/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "82",
+							"path": [
+								"api",
+								"admin",
+								"authors",
+								"87a781ab-fcd6-45ea-a6d1-9ea8056b0812",
+								""
+							]
+						},
+						"description": "Deletes article"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Article",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const AuthorsUrl = 'http://127.0.0.1:82/api/admin/authors/';",
+									"",
+									"const getAuthorRequest = {",
+									"  method: 'GET',",
+									"  url: AuthorsUrl,",
+									"  header: {'Authorization': 'Bearer ' + pm.variables.get('adminToken')}",
+									"};",
+									"",
+									"pm.sendRequest(getAuthorRequest, (err, response) => {",
+									"  const jsonResponse = response.json();",
+									"  const authorID = jsonResponse[0].id;",
+									"",
+									"  pm.variables.set('authorID', authorID);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"author\": \"{{authorID}}\",\n    \"category\": \"Test\",\n    \"title\": \"Teste article\",\n    \"summary\": \"This is a test\",\n    \"firstParagraph\": \"<p>This is the first paragraph of this article</p>\",\n    \"body\": \"<div><p>Second paragraph</p><p>Third paragraph</p></div>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:82/api/admin/articles/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "82",
+							"path": [
+								"api",
+								"admin",
+								"articles",
+								""
+							]
+						},
+						"description": "Creates the article with an author. The author id is necessary."
+					},
+					"response": [
+						{
+							"name": "Create Article",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"author\": \"{{authorID}}\",\n    \"category\": \"Category\",\n    \"title\": \"Article title\",\n    \"summary\": \"This is a summary of the article\",\n    \"firstParagraph\": \"<p>This is the first paragraph of this article</p>\",\n    \"body\": \"<div><p>Second paragraph</p><p>Third paragraph</p></div>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:82/api/admin/articles/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "82",
+									"path": [
+										"api",
+										"admin",
+										"articles",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 11 Jun 2021 01:38:10 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "401"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"c87b896c-f3c6-4cc0-b60f-e9de35f47111\",\n    \"category\": \"Category\",\n    \"title\": \"Article title\",\n    \"summary\": \"This is a summary of the article\",\n    \"firstParagraph\": \"<p>This is the first paragraph of this article</p>\",\n    \"body\": \"<div><p>Second paragraph</p><p>Third paragraph</p></div>\",\n    \"author\": {\n        \"id\": \"3fb4c437-fe9e-4ade-a9b1-18d76bd60171\",\n        \"name\": \"Diego Rafael\",\n        \"picture\": \"http://127.0.0.1/media/logo_3285uny.png\"\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "Article's endpoints exclusive for Admin users",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{adminToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const loginUrl = 'http://127.0.0.1:82/api/login/';",
+							"",
+							"const username = 'superuser';",
+							"const password = '12345';",
+							"",
+							"const getTokenRequest = {",
+							"  method: 'POST',",
+							"  url: loginUrl,",
+							"  header: { 'content-type': 'application/json' },",
+							"  body: {",
+							"      mode: 'raw',",
+							"      raw: JSON.stringify({ 'username': username, 'password': password })",
+							"  }",
+							"};",
+							"",
+							"",
+							"pm.sendRequest(getTokenRequest, (err, response) => {",
+							"    console.log(response)",
+							"  const jsonResponse = response.json();",
+							"  const newAccessToken = jsonResponse.access;",
+							"",
+							"  pm.variables.set('adminToken', newAccessToken);",
+							"});",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "List and Retrieve Articles",
+			"item": [
+				{
+					"name": "List Articles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json(),",
+									"    savedData = response[0].id;",
+									"",
+									"pm.collectionVariables.set(\"articleID\", savedData);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:82/api/articles/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "82",
+							"path": [
+								"api",
+								"articles",
+								""
+							]
+						},
+						"description": "Lists all articles with only necessary fields, regardless of authentication"
+					},
+					"response": []
+				},
+				{
+					"name": "Filtered List Articles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:82/api/articles/?category=Test",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "82",
+							"path": [
+								"api",
+								"articles",
+								""
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "Test"
+								}
+							]
+						},
+						"description": "Articles can be filtered by category and author's name"
+					},
+					"response": [
+						{
+							"name": "Filtered List Articles",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:82/api/articles/?category=Category",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "82",
+									"path": [
+										"api",
+										"articles",
+										""
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "Category"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 11 Jun 2021 01:52:10 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "267"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"c87b896c-f3c6-4cc0-b60f-e9de35f47111\",\n        \"category\": \"Category\",\n        \"title\": \"Article title\",\n        \"summary\": \"This is a summary of the article\",\n        \"author\": {\n            \"id\": \"3fb4c437-fe9e-4ade-a9b1-18d76bd60171\",\n            \"name\": \"Diego Rafael\",\n            \"picture\": \"http://127.0.0.1/media/logo_3285uny.png\"\n        }\n    }\n]"
+						},
+						{
+							"name": "Filtered List Articles",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:82/api/articles/?category=Test",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "82",
+									"path": [
+										"api",
+										"articles",
+										""
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "Test"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 11 Jun 2021 01:53:46 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "245"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"958bcfea-4181-406d-ba70-c6775158f5ac\",\n        \"category\": \"Test\",\n        \"title\": \"Teste article\",\n        \"summary\": \"This is a test\",\n        \"author\": {\n            \"id\": \"3fb4c437-fe9e-4ade-a9b1-18d76bd60171\",\n            \"name\": \"Diego Rafael\",\n            \"picture\": \"http://127.0.0.1/media/logo_3285uny.png\"\n        }\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Retrieve Logged In",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:82/api/articles/{{articleID}}/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "82",
+							"path": [
+								"api",
+								"articles",
+								"{{articleID}}",
+								""
+							]
+						},
+						"description": "Retrieves the article with logged in permission fields"
+					},
+					"response": [
+						{
+							"name": "Retrieve Logged In",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:82/api/articles/{{articleID}}/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "82",
+									"path": [
+										"api",
+										"articles",
+										"{{articleID}}",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 11 Jun 2021 01:57:52 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "335"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"c87b896c-f3c6-4cc0-b60f-e9de35f47111\",\n    \"category\": \"Category\",\n    \"title\": \"Article title\",\n    \"summary\": \"This is a summary of the article\",\n    \"firstParagraph\": \"<p>This is the first paragraph of this article</p>\",\n    \"author\": {\n        \"id\": \"3fb4c437-fe9e-4ade-a9b1-18d76bd60171\",\n        \"name\": \"Diego Rafael\",\n        \"picture\": \"http://127.0.0.1/media/logo_3285uny.png\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Retrieve Anonymous",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:82/api/articles/{{articleID}}/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "82",
+							"path": [
+								"api",
+								"articles",
+								"{{articleID}}",
+								""
+							]
+						},
+						"description": "Retrieves the article with only public fields"
+					},
+					"response": [
+						{
+							"name": "Retrieve Anonymous",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:82/api/articles/{{articleID}}/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "82",
+									"path": [
+										"api",
+										"articles",
+										"{{articleID}}",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 11 Jun 2021 01:58:11 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "335"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"c87b896c-f3c6-4cc0-b60f-e9de35f47111\",\n    \"category\": \"Category\",\n    \"title\": \"Article title\",\n    \"summary\": \"This is a summary of the article\",\n    \"firstParagraph\": \"<p>This is the first paragraph of this article</p>\",\n    \"author\": {\n        \"id\": \"3fb4c437-fe9e-4ade-a9b1-18d76bd60171\",\n        \"name\": \"Diego Rafael\",\n        \"picture\": \"http://127.0.0.1/media/logo_3285uny.png\"\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "Article's endpoints for general users and anonymous users",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{userToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const loginUrl = 'http://127.0.0.1:82/api/login/';",
+							"",
+							"const username = 'diego';",
+							"const password = 'diego12345';",
+							"",
+							"const getTokenRequest = {",
+							"  method: 'POST',",
+							"  url: loginUrl,",
+							"  header: { 'content-type': 'application/json' },",
+							"  body: {",
+							"      mode: 'raw',",
+							"      raw: JSON.stringify({ 'username': username, 'password': password })",
+							"  }",
+							"};",
+							"",
+							"",
+							"pm.sendRequest(getTokenRequest, (err, response) => {",
+							"    console.log(response)",
+							"  const jsonResponse = response.json();",
+							"  const newAccessToken = jsonResponse.access;",
+							"",
+							"  pm.variables.set('userToken', newAccessToken);",
+							"});",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Authors Admin",
+			"item": [
+				{
+					"name": "Create Author",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json(),",
+									"    savedData = response.id;",
+									"",
+									"pm.collectionVariables.set(\"authorID\", savedData);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjIzMzcwNTg4LCJqdGkiOiIzMjFmODM2YjVjZmI0ZWM2YmUyN2E5MjYwYTk3MGUxYiIsInVzZXJfaWQiOiJlN2Q2N2Q2NC0wZmY5LTRmZGUtYTlhYy02ZjE3Zjc5OGExZDAifQ.NOd4gShrOyToXAZrMfdyx-Zb_6iVSZmyTvhnefk7YII",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "picture",
+									"type": "file",
+									"src": "/home/diego/Imagens/logo.png"
+								},
+								{
+									"key": "name",
+									"value": "Diego Rafael",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:82/api/admin/authors/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "82",
+							"path": [
+								"api",
+								"admin",
+								"authors",
+								""
+							]
+						},
+						"description": "Create author with a name and a picture file.\nEndpoint excluise for admin users.\n\nmedia_type: multipart/form-data\n\n"
+					},
+					"response": [
+						{
+							"name": "Create Author",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjIzMzcwNTg4LCJqdGkiOiIzMjFmODM2YjVjZmI0ZWM2YmUyN2E5MjYwYTk3MGUxYiIsInVzZXJfaWQiOiJlN2Q2N2Q2NC0wZmY5LTRmZGUtYTlhYy02ZjE3Zjc5OGExZDAifQ.NOd4gShrOyToXAZrMfdyx-Zb_6iVSZmyTvhnefk7YII",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "picture",
+											"type": "file",
+											"src": "/home/diego/Imagens/logo.png"
+										},
+										{
+											"key": "name",
+											"value": "Diego Rafael",
+											"type": "text"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:82/api/admin/authors/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "82",
+									"path": [
+										"api",
+										"admin",
+										"authors",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 11 Jun 2021 00:13:20 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "119"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"87a781ab-fcd6-45ea-a6d1-9ea8056b0812\",\n    \"name\": \"Diego Rafael\",\n    \"picture\": \"http://127.0.0.1/media/logo_hfIwzEX.png\"\n}"
+						}
+					]
+				},
+				{
+					"name": "List Authors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:82/api/admin/authors/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "82",
+							"path": [
+								"api",
+								"admin",
+								"authors",
+								""
+							]
+						},
+						"description": "Lists all authors available"
+					},
+					"response": [
+						{
+							"name": "List Authors",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:82/api/admin/authors/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "82",
+									"path": [
+										"api",
+										"admin",
+										"authors",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 11 Jun 2021 00:53:42 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "121"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"87a781ab-fcd6-45ea-a6d1-9ea8056b0812\",\n        \"name\": \"Diego Rafael\",\n        \"picture\": \"http://127.0.0.1/media/logo_hfIwzEX.png\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Update Author",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Rafael",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:82/api/admin/authors/{{authorID}}/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "82",
+							"path": [
+								"api",
+								"admin",
+								"authors",
+								"{{authorID}}",
+								""
+							]
+						},
+						"description": "Update author"
+					},
+					"response": [
+						{
+							"name": "Update Author",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Rafael",
+											"type": "text"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:82/api/admin/authors/87a781ab-fcd6-45ea-a6d1-9ea8056b0812/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "82",
+									"path": [
+										"api",
+										"admin",
+										"authors",
+										"87a781ab-fcd6-45ea-a6d1-9ea8056b0812",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 11 Jun 2021 00:57:29 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "113"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"87a781ab-fcd6-45ea-a6d1-9ea8056b0812\",\n    \"name\": \"Rafael\",\n    \"picture\": \"http://127.0.0.1/media/logo_hfIwzEX.png\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Author",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const AuthorsUrl = 'http://127.0.0.1:82/api/admin/authors/';",
+									"",
+									"const getAuthorRequest = {",
+									"  method: 'GET',",
+									"  url: AuthorsUrl,",
+									"  header: {'Authorization': 'Bearer ' + pm.variables.get('access_token')}",
+									"};",
+									"",
+									"pm.sendRequest(getAuthorRequest, (err, response) => {",
+									"  const jsonResponse = response.json();",
+									"  const authorID = jsonResponse[0].id;",
+									"",
+									"  pm.variables.set('authorID', authorID);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:82/api/admin/authors/{{authorID}}/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "82",
+							"path": [
+								"api",
+								"admin",
+								"authors",
+								"{{authorID}}",
+								""
+							]
+						},
+						"description": "Delete author"
+					},
+					"response": []
+				}
+			],
+			"description": "Author's endpoints exclusive for Admin users.",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{adminToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const loginUrl = 'http://127.0.0.1:82/api/login/';",
+							"",
+							"const username = 'superuser';",
+							"const password = '12345';",
+							"",
+							"const getTokenRequest = {",
+							"  method: 'POST',",
+							"  url: loginUrl,",
+							"  header: { 'content-type': 'application/json' },",
+							"  body: {",
+							"      mode: 'raw',",
+							"      raw: JSON.stringify({ 'username': username, 'password': password })",
+							"  }",
+							"};",
+							"",
+							"pm.sendRequest(getTokenRequest, (err, response) => {",
+							"  const jsonResponse = response.json();",
+							"  const newAccessToken = jsonResponse.access;",
+							"",
+							"  pm.variables.set('adminToken', newAccessToken);",
+							"});",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token ced49a97d4e55cf11143b781a47219209b57e482",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"superuser\",\n    \"password\": \"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:82/api/login/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "82",
+							"path": [
+								"api",
+								"login",
+								""
+							]
+						},
+						"description": "Receives a username and password and retrieve a JWT token pair for authentication"
+					},
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"diego\",\n    \"password\": \"diego1234\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:82/api/login/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "82",
+									"path": [
+										"api",
+										"login",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 10 Jun 2021 23:20:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "537"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"refresh\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYyMzQ1MzYxOCwianRpIjoiNDAxZmFkM2JhZDQ5NGQ4Nzg3YjBlMmY4MWFlOGY1YTciLCJ1c2VyX2lkIjoiODc3ZjJkMTctYWY1NS00MmEyLWI5YWItZWUzNGQ2NWE3NzA4In0.I8CteL6cZauNcUxR8jvAyH3wt7lBJUadEiMeCP8K79M\",\n    \"access\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjIzMzY3NTE4LCJqdGkiOiI3ODliN2YwZTA5ZTE0ZjU2OGYxNDI0OThmMzY4MzJmNCIsInVzZXJfaWQiOiI4NzdmMmQxNy1hZjU1LTQyYTItYjlhYi1lZTM0ZDY1YTc3MDgifQ.IRW7Wa2xBFJueSP79YXVC9IroRGVkZ8OWK5l602Sw_g\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Sign up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"diego\",\n    \"email\": \"diego@mail.com\",\n    \"password\": \"diego1234\",\n    \"confirm_password\": \"diego1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:82/api/sign-up/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "82",
+							"path": [
+								"api",
+								"sign-up",
+								""
+							]
+						},
+						"description": "Send user information for signup"
+					},
+					"response": [
+						{
+							"name": "Sign up",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"diego\",\n    \"email\": \"diego@mail.com\",\n    \"password\": \"diego1234\",\n    \"confirm_password\": \"diego1234\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:82/api/sign-up/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "82",
+									"path": [
+										"api",
+										"sign-up",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 10 Jun 2021 23:18:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "178"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"diego\",\n    \"email\": \"diego@mail.com\",\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"password\": \"pbkdf2_sha256$260000$lFo0rSjQgqztiqVizasReX$w38ogSjkQgbktAQgXS8KFSY0j0X94/rxndoI74V4g5I=\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Endpoints for authentication"
+		}
+	],
+	"variable": [
+		{
+			"key": "authorID",
+			"value": ""
+		}
+	]
+}

@@ -11,7 +11,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # install dependencies
-COPY poetry.lock pyproject.toml ./
+COPY ./poetry.lock ./pyproject.toml ./
 RUN pip install --no-cache poetry \
     && poetry config virtualenvs.create false \
     && poetry install $(test "${DEVELOPMENT:=True}" = False && echo "--no-dev") --no-interaction --no-ansi
