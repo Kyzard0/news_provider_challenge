@@ -3,6 +3,17 @@
 1. Clone this repository
 2. Go to main folder
 3. (Optional) Change the first superuser credentials on the .env file in the docker folder if necessary, a default superuser will be created by a custom migration
+
+  3.a Default superuser details:
+
+  ```json
+    {
+      "username": "superuser",
+      "email": "superuser@mail.com",
+      "password": "12345"
+    }
+  ```
+
 4. Run the following commands:
 
     4.a  For development:
@@ -12,6 +23,7 @@
     ```make prod run```
 5. For development the endpoint will be available at http://localhost:8000/api/ and for production at http://localhost:82/api/
 6. There is a collection file on the postman folder to test the api, the documentation is also available [here](https://documenter.getpostman.com/view/6398789/TzeRqqmR)
+7. To stop the containers you can use the command ```make prod down```
 
 ## Challenge Description
 
