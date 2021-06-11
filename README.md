@@ -1,7 +1,19 @@
-# news_provider_challenge
+# Jungle Devs - Django Challenge #001
+## Instructions
+1. Clone this repository
+2. Go to main folder
+3. (Optional) Change the first superuser credentials on the .env file in the docker folder if necessary, a default superuser will be created by a custom migration
+4. Run the following commands:
 
-## Jungle Devs - Django Challenge #001
-### Description
+    4.a  For development:
+    ```make dev up```
+ 
+    4.b  For production, use this one instead:
+    ```make prod run```
+5. For development the endpoint will be available at http://localhost:8000/api/ and for production at http://localhost:82/api/
+6. There is a collection file on the postman folder to test the api, the documentation is also available [here](https://documenter.getpostman.com/view/6398789/TzeRqqmR)
+
+## Challenge Description
 
 **Challenge goal**: The purpose of this challenge is to give an overall understanding of a backend application. You’ll be implementing a simplified version of a news provider API. The concepts that you’re going to apply are:
 
