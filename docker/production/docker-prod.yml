@@ -34,6 +34,7 @@ services:
 
   nginx:
     build: ../../nginx
+    container_name: production_nginx
     ports:
       - 82:80
     volumes:
